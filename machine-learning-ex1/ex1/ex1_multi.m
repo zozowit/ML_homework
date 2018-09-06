@@ -104,10 +104,8 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-sp = [1650 3]
-sp = (sp - mu ) ./ sigma
-sp = [1 sp]
-price = sp * theta % You should change this
+specific = [1 1650 3]
+price = specific * theta; % You should change this
 
 
 % ============================================================
