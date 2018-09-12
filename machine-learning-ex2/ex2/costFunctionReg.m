@@ -25,7 +25,7 @@ H = sigmoid(z);
 
 J1 = 1 / m * ((-log(H')) * y - log(1 - H') * (1 - y));
 
-J2 = lambda / (2 * m) * sum(theta(2:n).^2);
+J2 = lambda / (2 * m) * sum(theta(2:n).^2); % theta 0 should not be regularized
 
 J = J1 + J2;
 
