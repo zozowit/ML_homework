@@ -41,9 +41,17 @@ z = X * theta;
 
 Hx = sigmoid(z);
 
-R = lambda/(2*m) * sum(theta(2:theta).^2);
+% 1. theta(0) should not be regularization
+% 2. theta is a vector, so theta(2:lt) equal to theta([2:lt], 1)
+% 3. grad is same as theta, grad(2: lt) = grad([2:lt], 1)
+% 4. sum(H .* y) = y' * H, both y and H is a vector
+R = lambda/(2*m) * sum(theta(2:lt).^2);
 
 J = 1/m * (-y' * log(Hx) - (1 - y)' * log(1 - Hx)) + R;
+
+grad(1) = 1/m * (X(:,1)' * (Hx - y));
+
+grad(2: lt) = 1/m * (X(:,[2:lt])' * (Hx - y)) + lambda / m *theta(2:lt);
 
 
 
