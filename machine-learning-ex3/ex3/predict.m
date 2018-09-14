@@ -21,6 +21,27 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+X = [ones(size(X, 1), 1) X];
+
+Z2 = Theta1 * X';
+% A2 is 25 X 5000
+A2 = sigmoid(Z2);
+
+% transpose A2 to add a bias columns
+% A2 is 5000 X 25 here
+A2 = A2';
+% A2 is 5000 X 26 here
+A2 = [ones(size(A2, 1), 1) A2];
+
+Z3 = Theta2 * A2';
+
+A3 = sigmoid(Z3);
+
+[max_A3, i_max_A3] = max(A3);
+
+p = i_max_A3';
+
+
 
 
 
