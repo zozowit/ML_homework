@@ -30,10 +30,21 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+z = all_theta * X';
 
+Hx = sigmoid(z);
 
+Hx(:,[1:5])
 
+% max will return two rows
+% max_Hx is the row of max values
+% i_max_Hx is the row of the index of max values
+[max_Hx, i_max_Hx] = max(Hx);
 
+i_max_Hx(:,[1:5])
+
+% row to vector
+p = i_max_Hx';
 
 
 % =========================================================================
