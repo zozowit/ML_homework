@@ -39,6 +39,48 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+
+% layer 2 hiden layer
+% add the bias unit
+X = [ones(m, 1) X];
+size(X)
+
+% get the hidden layer
+Z2 = Theta1 * X';
+
+% get activation of layer 2
+A2 = sigmoid(Z2);
+
+size(A2)
+
+%layer 3 output layer
+m2 = size(A2, 2)
+A2 = [ones(1, m2);A2];
+
+size(A2)
+
+Z3 = Theta2 * A2;
+
+%HX is a maxtric of 10 x 5000
+HX = sigmoid(Z3);
+
+% set vector y here to Yv 5000 * 10
+ny = size(y, 1)
+Yv = zeros(ny, num_labels);
+size(Yv)
+
+for i = 1:ny
+  Yv(i, y(i)) = 1;
+end
+fprintf('y=%d %d %d %d %d %d %d %d %d %d \n', y([1:10],:)');
+fprintf('Yv=%d %d %d %d %d %d %d %d %d %d \n', Yv([1:10],:)');
+% Yv * HX would be a 5000 x 5000
+% add the matric with sum(sum(M))
+
+% get the J
+Cost = -Yv * log(HX)  -  (1 - Yv) * log(1 - HX);
+J = 1/m * (sum(sum(Cost)))
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
