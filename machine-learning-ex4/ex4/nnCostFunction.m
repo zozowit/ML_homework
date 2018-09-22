@@ -23,7 +23,7 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
                  num_labels, (hidden_layer_size + 1));
 
 % Setup some useful variables
-m = size(X, 1);
+m = size(X, 1)
          
 % You need to return the following variables correctly 
 J = 0;
@@ -63,6 +63,7 @@ Z3 = Theta2 * A2;
 
 %HX is a maxtric of 10 x 5000
 HX = sigmoid(Z3);
+size(HX)
 
 % set vector y here to Yv 5000 * 10
 ny = size(y, 1)
@@ -74,12 +75,34 @@ for i = 1:ny
 end
 fprintf('y=%d %d %d %d %d %d %d %d %d %d \n', y([1:10],:)');
 fprintf('Yv=%d %d %d %d %d %d %d %d %d %d \n', Yv([1:10],:)');
-% Yv * HX would be a 5000 x 5000
-% add the matric with sum(sum(M))
 
 % get the J
-Cost = -Yv * log(HX)  -  (1 - Yv) * log(1 - HX);
-J = 1/m * (sum(sum(Cost)))
+
+% Version1 begin it's correct
+% Vector
+% HX is 10 x 5000
+Jsum = 0;
+for i = 1:m
+    Jik = -Yv(i,:) * log(HX(:,i)) - (1 - Yv(i,:)) * log(1 - HX(:,i));
+    Jsum = Jsum + Jik;    
+end
+
+J = 1 / m * Jsum;
+% Version1 end
+
+% Version2 begin it's correct
+% for loop 
+% set HX to 5000 x 10
+%HX = HX';
+%Jsum = 0;
+%for i = 1:m
+%  for j = 1:num_labels
+%    Jij = -Yv(i, j) * log(HX(i, j)) - (1 - Yv(i, j)) * log(1 - HX(i, j));
+%    Jsum = Jsum + Jij;    
+%end
+
+%J = 1 / m * Jsum;
+% Version2 end
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
