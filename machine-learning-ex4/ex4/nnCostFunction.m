@@ -104,6 +104,17 @@ J = 1 / m * Jsum;
 %J = 1 / m * Jsum;
 % Version2 end
 
+% Do the regularization
+% first column should not be regularized.
+nT1 = size(Theta1, 2)
+nT2 = size(Theta2, 2)
+Theta1Sum = sum(sum(Theta1(:,[2:nT1]).^2));
+Theta2Sum = sum(sum(Theta2(:,[2:nT2]).^2));
+ThetaSum = Theta1Sum + Theta2Sum
+R = lambda / (2 * m) * ThetaSum
+
+J = J + R
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
