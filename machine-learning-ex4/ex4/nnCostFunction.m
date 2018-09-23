@@ -23,7 +23,8 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
                  num_labels, (hidden_layer_size + 1));
 
 % Setup some useful variables
-m = size(X, 1)
+m = size(X, 1);
+% fprintf('m is %d, Theta1 is %d x %d, Theta2 is %d x %d\n', m, size(Theta1), size(Theta2))
          
 % You need to return the following variables correctly 
 J = 0;
@@ -43,7 +44,7 @@ Theta2_grad = zeros(size(Theta2));
 % layer 2 hiden layer
 % add the bias unit
 X = [ones(m, 1) X];
-size(X)
+% fprintf('X is %d by %d\n', size(X));
 
 % get the hidden layer
 Z2 = Theta1 * X';
@@ -51,30 +52,30 @@ Z2 = Theta1 * X';
 % get activation of layer 2
 A2 = sigmoid(Z2);
 
-size(A2)
+size(A2);
 
 %layer 3 output layer
-m2 = size(A2, 2)
+m2 = size(A2, 2);
 A2 = [ones(1, m2);A2];
 
-size(A2)
+size(A2);
 
 Z3 = Theta2 * A2;
 
 %HX is a maxtric of 10 x 5000
 HX = sigmoid(Z3);
-size(HX)
+size(HX);
 
 % set vector y here to Yv 5000 * 10
-ny = size(y, 1)
+ny = size(y, 1);
 Yv = zeros(ny, num_labels);
-size(Yv)
+% fprintf('Yv is %d x %d\n', size(Yv));
 
 for i = 1:ny
   Yv(i, y(i)) = 1;
 end
-fprintf('y=%d %d %d %d %d %d %d %d %d %d \n', y([1:10],:)');
-fprintf('Yv=%d %d %d %d %d %d %d %d %d %d \n', Yv([1:10],:)');
+% fprintf('y=%d %d %d %d %d %d %d %d %d %d \n', y([1:5],:)');
+% fprintf('Yv=%d %d %d %d %d %d %d %d %d %d \n', Yv([1:5],:)');
 
 % get the J
 
@@ -106,8 +107,9 @@ J = 1 / m * Jsum;
 
 % Do the regularization
 % first column should not be regularized.
-nT1 = size(Theta1, 2)
-nT2 = size(Theta2, 2)
+
+[mT1, nT1] = size(Theta1);
+[mT2, nT2] = size(Theta2);
 Theta1Sum = sum(sum(Theta1(:,[2:nT1]).^2));
 Theta2Sum = sum(sum(Theta2(:,[2:nT2]).^2));
 ThetaSum = Theta1Sum + Theta2Sum
@@ -130,8 +132,47 @@ J = J + R
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+% Go through each train set X_t_th
+% 
+for t = 1:m
+  % first layer
+  % X is 5000 x 401, get each row as a training set
+  a_1 = X(t,:);
+  
+  % second layer 
+  % a_2 is (row of Theta1) x (column+1 of Theta1)
+  z_2 = Theta1 * a_1';
+  a_2 = sigmoid(z_2);
+  m_2 = size(a_2, 2);
+  a_2 = [ones(1, m_2);a_2];
+  
+  % third layer
+  z_3 = Theta2 * a_2;
+  a_3 = sigmoid(z_3);
+  
+  % get delta in third layer
+  delta_3 = a_3 - (Yv(t,:))';
+  % % fprintf('delta_3 is %d x %d, Theta2 is %d x %d\n', size(delta_3), size(Theta2));
+  
+  % get delta of layer 2
+  g_t_z = sigmoidGradient(z_2);
+  g_t_z = [1 ; g_t_z];
+  % % fprintf('g_t_z is %d x %d\n', size(g_t_z));
+  delta_2 = Theta2' * delta_3 .* g_t_z;
+  
+  % skip the delta_2[0] to make delta_2 from 26 x 401 to 25 x401
+  % to match to the Theta1_grad
+  delta_2 = delta_2(2 : end);
+  
+  % accumulate the gradient
+  Theta2_grad = Theta2_grad + delta_3 * a_2';
+  Theta1_grad = Theta1_grad + delta_2 * a_1; % a_1 has been a row
+end
 
+Theta2_grad = 1 / m * Theta2_grad;
+Theta1_grad = 1 / m * Theta1_grad;
 
+%  fprintf('Theta1_grad is %d x %d, Theta2_grad is %d x %d\n', size(Theta1_grad), size(Theta2_grad));
 
 
 % Part 3: Implement regularization with the cost function and gradients.
@@ -141,25 +182,8 @@ J = J + R
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1_grad(:,[2:end]) = Theta1_grad(:,[2:end]) + lambda / m .* Theta1(:,[2:end]);
+Theta2_grad(:,[2:end]) = Theta2_grad(:,[2:end]) + lambda / m .* Theta2(:,[2:end]);
 % -------------------------------------------------------------
 
 % =========================================================================

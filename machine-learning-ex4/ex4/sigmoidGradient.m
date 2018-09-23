@@ -16,7 +16,7 @@ g = zeros(size(z));
 % test code begin
 % dgz should be 0.25 when z is 0 and it could work with vector and matrices
 % z = zeros(2, 3)
-g = sigmoid(z) .* (1 - sigmoid(z))
+g = sigmoid(z) .* (1 - sigmoid(z));
 % test code end
 
 
