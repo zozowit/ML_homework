@@ -40,6 +40,19 @@ error_val   = zeros(m, 1);
 %       Do note that you will still need to use lambda when running
 %       the training to obtain the theta parameters.
 %
+for i = 1:m
+  % only traning the training set and do not training the CV set
+  % CV set is used to validate but not for training
+  % different number of training set would generate different theta
+  [theta_train] = trainLinearReg(X([1:i],:), y([1:i],:), lambda);
+
+  % calculate the cost error of subset of training set
+  % lambda should be 0£¬ because we should understand the cost to choose the lambda
+  [error_train(i), grad] = linearRegCostFunction(X([1:i],:), y([1:i],:), theta_train, 0);
+  
+  % use all the CV set to get the error to validate the theta_train
+  [error_val(i), grad] = linearRegCostFunction(Xval, yval, theta_train, 0);
+end
 % Hint: You can loop over the examples with the following:
 %
 %       for i = 1:m

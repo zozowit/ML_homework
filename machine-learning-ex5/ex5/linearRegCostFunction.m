@@ -18,7 +18,7 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
-fprintf('X is %d x %d, theta is %d x %d\n', size(X), size(theta));
+% fprintf('X is %d x %d, theta is %d x %d\n', size(X), size(theta));
 Hx = X * theta;
 
 J = 1 / (2 * m) * sum((Hx -y).^2) + lambda / (2 * m) * sum(theta([2:end],:).^2);
@@ -29,7 +29,7 @@ grad(1,:) = 1 / m * sum((Hx -y) .* X(:,1));
 % (sum((Hx - y) .* X(:,[2:end]))) is a row and need to be transpose to align with theta
 grad([2:end],:) = 1 / m * (sum((Hx - y) .* X(:,[2:end])))' + lambda / m * theta([2:end],:);
 
-fprintf('grad is %d x %d\n', size(grad));
+% fprintf('grad is %d x %d\n', size(grad));
 
 
 
