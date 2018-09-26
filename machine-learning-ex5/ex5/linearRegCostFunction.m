@@ -18,6 +18,10 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
+fprintf('X is %d x %d, theta is %d x %d\n', size(X), size(theta));
+Hx = X * theta;
+
+J = 1 / (2 * m) * sum((Hx -y).^2) + lambda / (2 * m) * sum(theta([2:end],:).^2);
 
 
 
