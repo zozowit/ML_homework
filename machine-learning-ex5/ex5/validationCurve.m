@@ -38,7 +38,17 @@ error_val = zeros(length(lambda_vec), 1);
 %       end
 %
 %
+for i = 1: length(lambda_vec)
+  lambda = lambda_vec(i);
+  [theta_train] = trainLinearReg(X, y, lambda);
 
+  % calculate the cost error of subset of training set
+  % lambda should be 0£¬ because we should understand the cost to choose the lambda
+  [error_train(i), grad] = linearRegCostFunction(X, y, theta_train, 0);
+  
+  % use all the CV set to get the error to validate the theta_train
+  [error_val(i), grad] = linearRegCostFunction(Xval, yval, theta_train, 0);
+end
 
 
 
