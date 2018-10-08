@@ -19,8 +19,19 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 %                    recovered_j = v' * U(j, 1:K)';
 %
 %               Notice that U(j, 1:K) is a row vector.
-%               
+%  
+fprintf('recover K is %d\n', K);
+fprintf('U is %d x %d, Z is %d x %d\n', size(U), size(Z));
+             
+Ureduce = U(:, [1:K]);
+fprintf('Ureduce is %d x %d\n', size(Ureduce));
 
+% Ureduce is n x K
+% Z' is K x m
+% X_rec is n x m, each column is an example
+X_rec = Ureduce * Z';
+
+X_rec = X_rec';
 
 
 % =============================================================

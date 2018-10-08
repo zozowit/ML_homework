@@ -17,8 +17,21 @@ Z = zeros(size(X, 1), K);
 %                    x = X(i, :)';
 %                    projection_k = x' * U(:, k);
 %
+% x should be a vector, that's why x = X(i, :)', because each row of X is a example
+% Ureduce is n x k, Ureduce' is k x n
+% x is n x 1, X' is n x m
+% Ureduce' * x is k x 1, Ureduce' * X' is K x m
 
+fprintf('project X is %d x %d, K is %d\n', size(X), K);
+fprintf('U is %d x %d\n', size(U));
 
+Ureduce = U(:, [1:K]);
+fprintf('Ureduce is %d x %d\n', size(Ureduce));
+
+% Z here is K x m , each column is an example
+Z = Ureduce' * X';
+Z = Z';
+fprintf('Z is %d x %d\n', size(Z));
 
 
 % =============================================================
