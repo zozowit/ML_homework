@@ -20,7 +20,25 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+fprintf('X is %d x %d, centroids is %d x %d\n', size(X), size(centroids));
+m = size(X, 1);
 
+% Go though all the training set
+for i=1:m
+  % initial the square error
+  s_err_min = 100;
+  xi = X(i,:);
+  
+  % find the smallest square error
+  for j=1:K
+    % compute the || X - MU |^2
+    s_err = sum((xi - centroids(j,:) ).^2);
+    if s_err < s_err_min
+      idx(i,:) = j;
+      s_err_min = s_err;
+    endif
+  endfor
+endfor
 
 
 
