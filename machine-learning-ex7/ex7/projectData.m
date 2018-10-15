@@ -22,16 +22,16 @@ Z = zeros(size(X, 1), K);
 % x is n x 1, X' is n x m
 % Ureduce' * x is k x 1, Ureduce' * X' is K x m
 
-fprintf('project X is %d x %d, K is %d\n', size(X), K);
-fprintf('U is %d x %d\n', size(U));
+% fprintf('project X is %d x %d, K is %d\n', size(X), K);
+% fprintf('U is %d x %d\n', size(U));
 
 Ureduce = U(:, [1:K]);
-fprintf('Ureduce is %d x %d\n', size(Ureduce));
+% fprintf('Ureduce is %d x %d\n', size(Ureduce));
 
 % Z here is K x m , each column is an example
 Z = Ureduce' * X';
 Z = Z';
-fprintf('Z is %d x %d\n', size(Z));
+% fprintf('Z is %d x %d\n', size(Z));
 
 
 % =============================================================

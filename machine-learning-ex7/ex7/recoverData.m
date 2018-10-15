@@ -20,11 +20,11 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 %
 %               Notice that U(j, 1:K) is a row vector.
 %  
-fprintf('recover K is %d\n', K);
-fprintf('U is %d x %d, Z is %d x %d\n', size(U), size(Z));
+% fprintf('recover K is %d\n', K);
+% fprintf('U is %d x %d, Z is %d x %d\n', size(U), size(Z));
              
 Ureduce = U(:, [1:K]);
-fprintf('Ureduce is %d x %d\n', size(Ureduce));
+% fprintf('Ureduce is %d x %d\n', size(Ureduce));
 
 % Ureduce is n x K
 % Z' is K x m
