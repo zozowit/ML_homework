@@ -20,8 +20,13 @@ sigma2 = zeros(n, 1);
 %               the data for the i-th feature and sigma2(i)
 %               should contain variance of the i-th feature.
 %
+% know the dimension of X
+fprintf("X is %d x %d\n", size(X));
+% mean is going to calculate the column(feature) average
+mu = mean(X);
+fprintf("mu is %d x %d\n", size(mu));
 
-
+sigma2 = (var(X, 1));
 
 
 
