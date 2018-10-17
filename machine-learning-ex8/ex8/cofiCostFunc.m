@@ -40,8 +40,24 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+Py = X * Theta';
 
+J = 0.5 * sum(sum((Py - Y).^2));
 
+% Go through each movie
+for i=1 : num_movies
+  % calc grad for movie i = row i in X and X_grad
+  % X_grad(i,:) is 1 x num_features
+  % Py(i,:), Y(i,:) and R(i,:) is 1 x num_users
+  % Theta is num_users x num_features
+  X_grad(i,:) = (Py(i,:) - Y(i,:)) .* R(i,:) * Theta;
+endfor
+
+% Go through each user
+for j=1 : num_movies
+  % calc grad for user j = row j in Theta and Theta_grad
+  % column column
+endfor
 
 
 
