@@ -42,7 +42,14 @@ Theta_grad = zeros(size(Theta));
 
 Py = X * Theta';
 
-J = 0.5 * sum(sum((Py - Y).^2));
+Reg_J = lambda / 2 * ((sum(sum(Theta .^ 2)) + sum(sum(X .^ 2))) );
+
+J = 0.5 * sum(sum((Py - Y).^2 .* R)) + Reg_J;
+
+% fprintf('X is %d x %d\n', size(X));
+% fprintf('Theta is %d x %d\n', size(Theta));
+% fprintf('Y is %d x %d\n', size(Y));
+% fprintf('R is %d x %d\n', size(R));
 
 % Go through each movie
 for i=1 : num_movies
@@ -50,14 +57,20 @@ for i=1 : num_movies
   % X_grad(i,:) is 1 x num_features
   % Py(i,:), Y(i,:) and R(i,:) is 1 x num_users
   % Theta is num_users x num_features
-  X_grad(i,:) = (Py(i,:) - Y(i,:)) .* R(i,:) * Theta;
+  Reg_Xi = lambda * X(i,:);
+  X_grad(i,:) = (Py(i,:) - Y(i,:)) .* R(i,:) * Theta + Reg_Xi;
 endfor
 
-% Go through each user
-for j=1 : num_movies
+% Go through each user in Theta
+for j=1 : num_users
   % calc grad for user j = row j in Theta and Theta_grad
-  % column column
+  % each J in Y is columns
+  Reg_Thetaj = lambda * Theta(j,:);
+  Theta_grad(j,:) = (Py(:,j) - Y(:,j))' .* R(:,j)' * X + Reg_Thetaj;
 endfor
+
+fprintf('X_grad is %d x %d\n', size(X_grad));
+fprintf('Theta_grad is %d x %d\n', size(Theta_grad));
 
 
 
